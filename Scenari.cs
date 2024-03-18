@@ -70,13 +70,13 @@ namespace TheCMDgame
         static public void SecondoComando()
         {
             Game.StampaFigo("Capitolo 3: Secondo comando", 250);
-            Game.MSG("In questo momento comunque è strano.", 2000);
+            /*Game.MSG("In questo momento comunque è strano.", 2000);
             Game.MSG("Stanno succedendo delle cose nella mia testa.",2000);
             Game.MSG("Come dei strani flash su dei scenari, alcuni davanti ad un rettangolo colorato..",2000);
             Game.MSG("Altri con degli rumori assordanti..il caos.", 1700);
             Game.MSG("E alcuni con...", 1000);
             Game.MSG("La famiglia?", 6000);
-            Game.MSG("vabbè metto questo comando prima che me ne scordo.");
+            Game.MSG("vabbè metto questo comando prima che me ne scordo.");*/
             Game.MSG("il comando è: ls");
             while (Game.CMD() != "ls");
             Console.WriteLine("");

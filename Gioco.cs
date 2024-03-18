@@ -300,12 +300,12 @@ namespace TheCMDgame
                     break;
 
                 case "nano":
-                    if (!Files.Contains(soloArgs(cmd)[0]))
-                        Console.WriteLine("\nIl file che si sta cercando di aprire non esiste\n");
+                    if (!Files.Contains(soloArgs(cmd)))
+                        Console.WriteLine($"\n{soloArgs(cmd)}\n/\\\nIl file che si sta cercando di aprire non esiste\n");
                     else
                     {
                         Console.WriteLine("");
-                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\note.txt"));
+                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{soloArgs(cmd)}"));
                         Console.WriteLine("");
                     }
                     break;
@@ -339,18 +339,15 @@ namespace TheCMDgame
             return cmd;
         }
         //metodo uguale a prima ma prendendo solo i parametri
-        static private List<String> soloArgs(String cmd)
+        static private String soloArgs(String cmd)
         {
-            List<String> ris = new List<String>();
-            String arg = "";
+            String ris = "";
             foreach (char c in cmd)
             {
-                if(arg == soloCMD(cmd))
-                    arg = "";
-                if (c == ' ' && arg != soloCMD(cmd))
-                    ris.Add(arg);
+                if (c == ' ' && ris == soloCMD(cmd))
+                    ris = "";
                 else
-                    arg += c;
+                    ris += c;
             }
             return ris;
         }
