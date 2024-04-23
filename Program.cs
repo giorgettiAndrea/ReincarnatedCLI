@@ -16,7 +16,7 @@ namespace TheCMDgame
             Game.Setup();
 
             //menù del gioco (tolto per debug veloce)
-            //Game.Menu();
+            Game.Menu();
 
             //selezione del capitolo
             switch (Game.Capitolo)

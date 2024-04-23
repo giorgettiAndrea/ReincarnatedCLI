@@ -390,7 +390,7 @@ namespace TheCMDgame
         //in futuro qua verranno caricati i salvataggi
         static public void Setup()
         {
-            Capitolo = 3;
+            Capitolo = 1;
         }
     }
 }
