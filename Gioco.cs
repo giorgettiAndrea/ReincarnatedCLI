@@ -21,7 +21,7 @@ namespace TheCMDgame
                 //Cartella sopra quella del progretto
                 string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
                 //entro nel progetto e ritorno il percorso
-                return projectDirectory + @"\ReincarnatedCLI";
+                return projectDirectory + $@"\ReincarnatedCLI{dirpos}";
             }
         }
 
@@ -77,6 +77,7 @@ namespace TheCMDgame
                 return ris;
             }
         }
+        //la lista di file dell'ambiente di gioco
         static private List<String> Files
         {
             get
@@ -91,6 +92,9 @@ namespace TheCMDgame
                 return ris;
             }
         }
+        //la posizione corrente nell'ambiente di gioco
+        static private String dirpos;
+        static public String DirectoryPos { get { return dirpos; } }
 
         //la salute del processo diminuito ad ogni errore nella scrittura dei comandi
         static private int salute = 6;
@@ -254,12 +258,12 @@ namespace TheCMDgame
         }
 
         //procedura in cui l'utente dovrà inserire un comando
-        static public String CMD(String dir = "")
+        static public String CMD()
         {
             //mostro il cursore
             Console.CursorVisible = true;
             //stampa per far capire che è un comando
-            Console.Write(">>>{0} ", dir);
+            Console.Write(">>>{0} ", DirectoryPos);
             //comando dell'utente
             String cmd = Console.ReadLine();
             //se non c'è fa sapere dell'errore
@@ -307,7 +311,16 @@ namespace TheCMDgame
                         Console.WriteLine("");
                         Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{soloArgs(cmd)}"));
                         Console.WriteLine("");
+                        if (cmd == "nano note.txt")
+                            listaCMD.Add("cd: per entrare nelle cartelle.");
                     }
+                    break;
+
+                case "cd":
+                    if (!Files.Contains(soloArgs(cmd)))
+                        Console.WriteLine($"\n{soloArgs(cmd)}\n/\\\nLa cartella in cui si sta cercando di entrare non esiste\n");
+                    else
+                        dirpos += " "+soloArgs(cmd)+":";
                     break;
             }
             Console.CursorVisible = false;
@@ -359,6 +372,16 @@ namespace TheCMDgame
                 ris += s[i];
             return ris;
         }
+        //data una stringa toglie gli spazi attorno
+        static private String NoSpace(String s)
+        {
+            string ris = "";
+            for(int i = 0; i < s.Length; i++)
+            {
+                if()
+            }
+            return ris;
+        }
 
         //per chiudere
         static public void Close()
@@ -390,7 +413,7 @@ namespace TheCMDgame
         //in futuro qua verranno caricati i salvataggi
         static public void Setup()
         {
-            Capitolo = 1;
+            Capitolo = 3;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace TheCMDgame
             Game.MSG("-h ?");
             Game.MSG("E' un comando...");
             Game.MSG("Proviamo:", 5000);
-            while (Game.CMD("") != "-h");
+            while (Game.CMD() != "-h");
             Game.MSG("Aiii la testa", 100);
             Game.MSG("Cosa mi è successo?");
             Game.MSG("Ho sbagliato comando..", 5000);
