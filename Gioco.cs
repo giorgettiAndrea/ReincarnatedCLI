@@ -41,6 +41,16 @@ namespace TheCMDgame
             c.Desc = d;
             return c;
         }
+        //funzione che verifica l'esistenza di un comando
+        static private bool EsisteComando(String n)
+        {
+            foreach(Comando c in listaCMD)
+            {
+                if (c.Nome == n)
+                    return true;
+            }
+            return false;
+        }
 
         //lo scenario in cui deve ancora finire in forma numerale
         static private int Scenario = 1;
@@ -59,36 +69,15 @@ namespace TheCMDgame
                 //in base al capitolo verrà modificata la lista di file presenti
                 if(value >= 3)
                 {
-                    listaCMD.Add("ls: permette di vedere gli elementi presenti nella propria posizione, elementi col simbolo \"\\\" sono cartelle.");
-                    listaCMD.Add("nano: permette di aprire file di testo.");
-                    listaCMD.Add("clear: schiarisce la mente.");
-                    listaCMD.Add("exit: esci dal gioco");
+                    listaCMD.Add(CreaComando("ls", "permette di vedere gli elementi presenti nella propria posizione"));
+                    listaCMD.Add(CreaComando("nano", "permette di aprire file di testo."));
+                    listaCMD.Add(CreaComando("clear","schiarisce la mente"));
+                    listaCMD.Add(CreaComando("exit","esce dal gioco"));
                 }
             }
         }
-        //lista di comandi che verranno stampati col comando d'aiuto
-        static private List<String> listaCMD = new List<String>();
-        //lista di comandi senza descrizione
-        static private List<String> listOnlyCMD
-        {
-            get {
-                List<String> ris = new List<String>();
-                foreach(String c in listaCMD)
-                {
-                    String e = "";
-                    foreach(char l in c)
-                    {
-                        if (l == ':')
-                            break;
-                        e += l;
-                    }
-                    ris.Add(e);
-                }
-                if (Capitolo >= 2)
-                    ris.Add("-help");
-                return ris;
-            }
-        }
+        //lista di comandi
+        static private List<Comando> listaCMD = new List<Comando>();
         //la lista di file dell'ambiente di gioco
         static private List<String> Files
         {
@@ -104,6 +93,18 @@ namespace TheCMDgame
                 return ris;
             }
         }
+        //un metodo privato che dato un percorso restituisce solo il nome
+        static private String OnlyName(String path)
+        {
+            String ris = "";
+            for (int i = path.Length - 1; path[i] != '\\'; i--)
+                ris += path[i];
+            ris = Reverse(ris);
+            if (!ris.Contains('.'))
+                ris = "\\" + ris;
+            return ris;
+        }
+
         //la posizione corrente nell'ambiente di gioco
         static private String dirpos = "";
         static public String DirectoryPos { get { return dirpos; } }
@@ -241,7 +242,10 @@ namespace TheCMDgame
             //in base alla salute corrompe il messaggio
             m = CorruptString(m);
             //stampa il messaggio
-            Console.WriteLine("> " + m);
+            if (dirpos == "")
+                Console.WriteLine("> " + m);
+            else
+                Console.WriteLine($">{dirpos}: " + m);
             //distanzia i messaggi fra loro in caso di giocatori con problemi epilettici
             if (EpiletticMode)
             {
@@ -278,7 +282,7 @@ namespace TheCMDgame
             if(dirpos == "")
                 Console.Write(">>> ");
             else
-                Console.Write($">>> {dirpos}: ");
+                Console.Write($">>>{dirpos}: ");
             //comando dell'utente
             String cmd = Console.ReadLine();
             //se non c'è fa sapere dell'errore
@@ -287,26 +291,31 @@ namespace TheCMDgame
                 Console.CursorVisible = false;
                 return cmd;
             }
-            if (!listOnlyCMD.Contains(soloCMD(cmd)))
+            if (!EsisteComando(soloCMD(cmd)))
             {
-                Dead();
-                Console.WriteLine(CorruptString($"\n{cmd}\n/\\E' stata immessa una riga non riconoscibile, digitare \"-help\" per vedere i comandi\n"));
-                salute--;
-                Console.CursorVisible = false;
-                return cmd;
+                if (soloCMD(cmd) == "-help")
+                {
+                    Console.WriteLine(CorruptString("Lista dei comandi:\n"));
+                    for (int i = 0; i < listaCMD.Count; i++)
+                        Console.WriteLine(listaCMD[i].Nome + ": " + listaCMD[i].Desc);
+                    wait(4000);
+                    Console.WriteLine(CorruptString("\n404: Errore di caricamento\n"));
+                }
+                else
+                {
+                    Dead();
+                    Console.WriteLine(CorruptString($"\n{cmd}\n/\\E' stata immessa una riga non riconoscibile, digitare \"-help\" per vedere i comandi\n"));
+                    salute--;
+                    Console.CursorVisible = false;
+                    return cmd;
+                }
             }
             switch (soloCMD(cmd))
             {
-                case "-help":
-                    Console.WriteLine(CorruptString("Lista dei comandi:\n"));
-                    for (int i = 0; i < listaCMD.Count; i++)
-                        Console.WriteLine(listaCMD[i]);
-                    wait(4000);
-                    Console.WriteLine(CorruptString("\n404: Errore di caricamento\n"));
-                    break;
-
                 case "ls":
                     Console.WriteLine("");
+                    if (Files.Count == 0)
+                        Console.WriteLine("[Cartella vuota]");
                     foreach (String f in Files)
                         Console.Write(f + " ");
                     Console.WriteLine("");
@@ -332,14 +341,30 @@ namespace TheCMDgame
                         Console.WriteLine("");
                         Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{dirpos}\{soloArgs(cmd)}"));
                         Console.WriteLine("");
-                        if (cmd == "nano note.txt" && !listOnlyCMD.Contains("cd"))
-                            listaCMD.Add("cd: per entrare nelle cartelle.");
+                        if (cmd == "nano note.txt" && !EsisteComando("cd"))
+                            listaCMD.Add(CreaComando("cd","per entrare nelle cartelle, \"..\" per uscire."));
                     }
                     break;
 
                 case "cd":
                     if (soloArgs(cmd) == "")
-                        Console.WriteLine("\nAndrebbe messo il nome di un file come parametro");
+                        Console.WriteLine("\nAndrebbe messo il nome di una cartella come parametro");
+                    else if (soloArgs(cmd) == "..")
+                    {
+                        int index = 0;
+                        for (int i = dirpos.Length-1; i >= 0; i--)
+                        {
+                            if (dirpos[i] == '\\')
+                            {
+                                index = i;
+                                i = -1;
+                            }
+                        }
+                        string ris = "";
+                        for (int i = 0; i < index; i++)
+                            ris += dirpos[i];
+                        dirpos = ris;
+                    }
                     else if (!Files.Contains(soloArgs(cmd)))
                         Console.WriteLine($"\n{soloArgs(cmd)}\n/\\\nLa cartella in cui si sta cercando di entrare non esiste\n");
                     else
@@ -348,18 +373,6 @@ namespace TheCMDgame
             }
             Console.CursorVisible = false;
             return cmd;
-        }
-
-        //un metodo privato che dato un percorso restituisce solo il nome
-        static private String OnlyName(String path)
-        {
-            String ris = "";
-            for(int i = path.Length-1; path[i] != '\\'; i--)
-                ris += path[i];
-            ris = Reverse(ris);
-            if (!ris.Contains('.'))
-                ris = "\\" + ris;
-            return ris;
         }
         //metodo privato per escludere i parametri da un comando
         static private String soloCMD(String cmd)
@@ -437,7 +450,7 @@ namespace TheCMDgame
                 wait(2000);
                 Console.Clear();
                 salute = 6;
-                listaCMD = new List<string>();
+                listaCMD = new List<Comando>();
                 nmsg = 0;
                 wait(4000);
                 Program.Main();
