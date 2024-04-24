@@ -86,7 +86,10 @@ namespace TheCMDgame
             Game.MSG("Oh, è cambiato qualcosa nel comando help.",0);
             Game.MSG("Mmh...");
             Game.MSG("Protebbero tornarmi utili queste informazioni.");
-            while (Game.CMD() != "nano note.txt") ;
+            while (Game.CMD() != "nano note.txt");
+            Game.MSG("Cosa c'è scritto...?");
+            while (/*Game.CMD() != "dir \\Log"*/true)
+                Game.CMD();
         }
 
         static private void AnimationCorrupted()

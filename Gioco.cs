@@ -8,6 +8,14 @@ using System.Threading;
 
 namespace TheCMDgame
 {
+    //la struct del comando
+    struct Comando
+    {
+        public String Nome;
+        public String Desc;
+    }
+
+
     //la classe del gioco
     static class Game
     {
@@ -21,10 +29,18 @@ namespace TheCMDgame
                 //Cartella sopra quella del progretto
                 string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
                 //entro nel progetto e ritorno il percorso
-                return projectDirectory + $@"\ReincarnatedCLI{dirpos}";
+                return projectDirectory + $@"\ReincarnatedCLI";
             }
         }
 
+        //funzione che crea un comando in modo compatto
+        static private Comando CreaComando(String n, String d)
+        {
+            Comando c;
+            c.Nome = n;
+            c.Desc = d;
+            return c;
+        }
 
         //lo scenario in cui deve ancora finire in forma numerale
         static private int Scenario = 1;
@@ -38,24 +54,20 @@ namespace TheCMDgame
                 if (value > 0)
                     Scenario = value;
                 else
-                    return;
+                    Scenario = 0;
 
                 //in base al capitolo verrà modificata la lista di file presenti
-                switch (value)
+                if(value >= 3)
                 {
-                    case 3:
-                        Directory.CreateDirectory($@"{percorsoGioco}\AmbienteDiGioco\Log");
-                        File.WriteAllText($@"{percorsoGioco}\AmbienteDiGioco\note.txt", "[ATTENZIONE FILE CORROTTO]\n\n\ncd: òér aprire le diR°§à-");
-
-                        listaCMD.Add("ls: permette di vedere gli elementi presenti nella propria posizione, elementi col simbolo \"\\\" sono cartelle.");
-                        listaCMD.Add("nano: permette di aprire file di testo.");
-                        listaCMD.Add("exit: esci dal gioco");
-                        break;
+                    listaCMD.Add("ls: permette di vedere gli elementi presenti nella propria posizione, elementi col simbolo \"\\\" sono cartelle.");
+                    listaCMD.Add("nano: permette di aprire file di testo.");
+                    listaCMD.Add("clear: schiarisce la mente.");
+                    listaCMD.Add("exit: esci dal gioco");
                 }
             }
         }
         //lista di comandi che verranno stampati col comando d'aiuto
-        static private List<String> listaCMD = new List<string>();
+        static private List<String> listaCMD = new List<String>();
         //lista di comandi senza descrizione
         static private List<String> listOnlyCMD
         {
@@ -82,8 +94,8 @@ namespace TheCMDgame
         {
             get
             {
-                String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco");
-                String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco");
+                String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco{dirpos}");
+                String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco{dirpos}");
                 String[] files = getDirs.Concat(getFiles).ToArray();
 
                 List<String> ris = new List<String>();
@@ -93,7 +105,7 @@ namespace TheCMDgame
             }
         }
         //la posizione corrente nell'ambiente di gioco
-        static private String dirpos;
+        static private String dirpos = "";
         static public String DirectoryPos { get { return dirpos; } }
 
         //la salute del processo diminuito ad ogni errore nella scrittura dei comandi
@@ -263,7 +275,10 @@ namespace TheCMDgame
             //mostro il cursore
             Console.CursorVisible = true;
             //stampa per far capire che è un comando
-            Console.Write(">>>{0} ", DirectoryPos);
+            if(dirpos == "")
+                Console.Write(">>> ");
+            else
+                Console.Write($">>> {dirpos}: ");
             //comando dell'utente
             String cmd = Console.ReadLine();
             //se non c'è fa sapere dell'errore
@@ -297,6 +312,10 @@ namespace TheCMDgame
                     Console.WriteLine("");
                     break;
 
+                case "clear":
+                    Console.Clear();
+                    break;
+
                 case "exit":
                     Console.Write(CorruptString("\nChiusura in corso"));
                     StampaFigo("...", 1000);
@@ -304,27 +323,31 @@ namespace TheCMDgame
                     break;
 
                 case "nano":
-                    if (!Files.Contains(soloArgs(cmd)))
+                    if (soloArgs(cmd) == "")
+                        Console.WriteLine("\nAndrebbe messo il nome di un file come parametro");
+                    else if (!Files.Contains(soloArgs(cmd)))
                         Console.WriteLine($"\n{soloArgs(cmd)}\n/\\\nIl file che si sta cercando di aprire non esiste\n");
                     else
                     {
                         Console.WriteLine("");
-                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{soloArgs(cmd)}"));
+                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{dirpos}\{soloArgs(cmd)}"));
                         Console.WriteLine("");
-                        if (cmd == "nano note.txt")
+                        if (cmd == "nano note.txt" && !listOnlyCMD.Contains("cd"))
                             listaCMD.Add("cd: per entrare nelle cartelle.");
                     }
                     break;
 
                 case "cd":
-                    if (!Files.Contains(soloArgs(cmd)))
+                    if (soloArgs(cmd) == "")
+                        Console.WriteLine("\nAndrebbe messo il nome di un file come parametro");
+                    else if (!Files.Contains(soloArgs(cmd)))
                         Console.WriteLine($"\n{soloArgs(cmd)}\n/\\\nLa cartella in cui si sta cercando di entrare non esiste\n");
                     else
-                        dirpos += " "+soloArgs(cmd)+":";
+                        dirpos += soloArgs(cmd);
                     break;
             }
             Console.CursorVisible = false;
-            return soloCMD(cmd);
+            return cmd;
         }
 
         //un metodo privato che dato un percorso restituisce solo il nome
@@ -362,7 +385,7 @@ namespace TheCMDgame
                 else
                     ris += c;
             }
-            return ris;
+            return NoSpace(Reverse(ris));
         }
         //altro metodo privato per rovesciare una stringa
         static private String Reverse(String s)
@@ -376,9 +399,23 @@ namespace TheCMDgame
         static private String NoSpace(String s)
         {
             string ris = "";
+            bool a = false;
             for(int i = 0; i < s.Length; i++)
             {
-                if()
+                if (s[i] != ' ')
+                    a = true;
+                if (a)
+                    ris += s[i];
+            }
+            s = ris;
+            ris = "";
+            a = false;
+            for (int i = s.Length-1; i >= 0; i--)
+            {
+                if (s[i] != ' ')
+                    a = true;
+                if (a)
+                    ris += s[i];
             }
             return ris;
         }
