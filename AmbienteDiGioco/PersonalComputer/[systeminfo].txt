@@ -1,3 +1,24 @@
 {
 2 << ping
 }
+
+Nome host:                            PCR
+Nome SO:                              Microsoft Windows 10 pro
+Versione SO:                          10.0.19045 N/D build 19045
+Produttore SO:                        Microsoft Corporation
+Configurazione SO:                    Workstation 
+Tipo build SO:                        Multiprocessor Free
+Proprietario registrato:              "da aggiungere"
+Organizzazione registrata:
+Numero di serie:                      A0628-20960-99487-34DE0
+
+Produttore sistema:                   Gigabyte Technology
+Modello sistema:                      MS-7A56
+Tipo sistema:                         x64-based PC
+Processore:                           1x processore istallato
+				      [i7]-20th -20700kf
+
+Versione BIOS:                        American Megatrends Inc. 1.60, 26/04/2017
+
+Directory Windows:                    C:\Windows
+Directory di sistema:                 C:\Windows\system32
