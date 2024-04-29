@@ -1,0 +1,28 @@
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+           ___                      ___
+            ___                    ____
+             ___                  _____
+              ___                ______
+               ___              ___ ___
+                ___            ___  ___
+                 ___          ___   ___
+                  ___        ___    ___
+                   ___      ___     ___
+                    ___    ___      ___
+                     ___  ___       _______________________
+                      ______        _______________________
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+DOCUMENTO DI PROPRIETA' Virtual Legacy© DA NON ESSERE CONDIVISA
+
+
+OBIETTIVO: entrare nel computer del sospetto e trovare incongruenze nei file.
+
+SOSPETTO: vendita illegali di armi probabilmente rubate.
+
+SOLUZIONE:
+ - ssh [nome dominio]  --> per usare il terminale di un host remoto.
+ - host-info           --> info sull'host

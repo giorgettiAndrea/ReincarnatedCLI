@@ -46,23 +46,23 @@ namespace TheCMDgame
             Game.MSG("E' un comando...");
             Game.MSG("Proviamo:", 5000);
             while (Game.CMD() != "-h");
-            Game.MSG("Aiii la testa", 100);
+            Game.MSG("Aiii la testa!", 100);
             Game.MSG("Cosa mi è successo?");
             Game.MSG("Ho sbagliato comando..", 5000);
             Game.MSG("Per questo che mi ha fatto male la testa?", 5000);
             Game.MSG("Provo con -help.");
             Game.MSG("Spero di non sbagliare un'altra volta.", 1000);
             while (Game.CMD() != "-help");
-            Game.MSG("Non ha fatto nulla..");
-            Game.MSG("E a che mi dovrebbe servire se non fa nulla.");
+            Game.MSG("Ma da errore..");
+            Game.MSG("E a che mi dovrebbe servire se non funziona.");
             Game.MSG("Devo ricordarmi di qualche altro comando.");
-            Game.MSG("Se questo qua \"d'aiuto\" non funziona.");
-            Game.MSG("Cos'è questo che mi sto ricordando...?", 6000);
+            Game.MSG("Se questo qua \"d'aiuto\" non va.");
+            Game.MSG("Aspe mi sto ricordando altro...", 6000);
             Game.MSG("Mi ricordo di una bimba..", 6000);
             Game.MSG("Si chiamava Carla.", 10000);
             Game.MSG("E una donna di nome...", 6000);
-            Game.MSG("Vale..?");
-            Game.MSG("Ecco ecco, mi appare proprio ora un'altro comando.",1000);
+            Game.MSG("Valen-?");
+            Game.MSG("Ecco ecco, mi appare proprio ora un'altro comando.",500);
             Game.wait(4000);
             Game.Capitolo++;
         }
@@ -88,9 +88,10 @@ namespace TheCMDgame
             Game.MSG("Protebbero tornarmi utili queste informazioni.");
             while (Game.CMD() != "nano note.txt");
             Game.MSG("Cosa c'è scritto...?");
-            while (Game.CMD() != "cd \\Log");
+            while (Game.CMD() != "cd \\Lavori");
             Game.MSG("Uh...");
-            Game.MSG("Sembra essere un altro posto");
+            Game.MSG("Sembra essere un altro posto.");
+            Game.MSG("Significa che devo scarrozzare un pò in giro.",4500);
             while (true) Game.CMD();
         }
 

@@ -78,18 +78,35 @@ namespace TheCMDgame
         }
         //lista di comandi
         static private List<Comando> listaCMD = new List<Comando>();
+        //la località in cui si trova il protagonista, il computer in cui si trova
+        static private String LocalHost = @"\PersonalComputer";
         //la lista di file dell'ambiente di gioco
         static private List<String> Files
         {
             get
             {
-                String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco{dirpos}");
-                String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco{dirpos}");
+                String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}{dirpos}");
+                String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}{dirpos}");
                 String[] files = getDirs.Concat(getFiles).ToArray();
 
                 List<String> ris = new List<String>();
                 foreach(String f in files)
-                    ris.Add(OnlyName(f));
+                {
+                    if(OnlyName(f)[0] != '[')
+                        ris.Add(OnlyName(f));
+                }
+                return ris;
+            }
+        }
+        //lista di host remoti
+        static private List<String> Hosts
+        {
+            get
+            {
+                String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco");
+                List<String> ris = new List<String>();
+                foreach (String h in getDirs)
+                    ris.Add(OnlyName(h));
                 return ris;
             }
         }
@@ -285,7 +302,8 @@ namespace TheCMDgame
                 Console.Write($">>>{dirpos}: ");
             //comando dell'utente
             String cmd = Console.ReadLine();
-            //se non c'è fa sapere dell'errore
+            cmd = NoSpace(cmd);
+            //tutti i controlli neccessari per il comando messo dal giocatore
             if (cmd == "")
             {
                 Console.CursorVisible = false;
@@ -339,17 +357,22 @@ namespace TheCMDgame
                     else
                     {
                         Console.WriteLine("");
-                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{dirpos}\{soloArgs(cmd)}"));
+                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}{dirpos}\{soloArgs(cmd)}"));
                         Console.WriteLine("");
                         if (cmd == "nano note.txt" && !EsisteComando("cd"))
                             listaCMD.Add(CreaComando("cd","per entrare nelle cartelle, \"..\" per uscire."));
+                        if (cmd == "nano Incarico di lavoro 1.txt" && !EsisteComando("ssh") && !EsisteComando("host-info"))
+                        {
+                            listaCMD.Add(CreaComando("ssh", "per usare il teriminale di un altro host"));
+                            listaCMD.Add(CreaComando("host-info", "info sull'host corrente"));
+                        }
                     }
                     break;
 
                 case "cd":
                     if (soloArgs(cmd) == "")
                         Console.WriteLine("\nAndrebbe messo il nome di una cartella come parametro");
-                    else if (soloArgs(cmd) == "..")
+                    else if (soloArgs(cmd) == ".." && dirpos != "")
                     {
                         int index = 0;
                         for (int i = dirpos.Length-1; i >= 0; i--)
@@ -369,6 +392,29 @@ namespace TheCMDgame
                         Console.WriteLine($"\n{soloArgs(cmd)}\n/\\\nLa cartella in cui si sta cercando di entrare non esiste\n");
                     else
                         dirpos += soloArgs(cmd);
+                    break;
+
+                case "systeminfo":
+                    Console.WriteLine("");
+                    Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}\[systeminfo].txt"));
+                    Console.WriteLine("");
+                    break;
+
+                case "ssh":
+                    if (!Hosts.Contains(soloArgs(cmd)))
+                    {
+                        wait(3000);
+                        Console.WriteLine("\nERRORE: host non trovato\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n>>ssh --> WIP<<\n");
+                    }
+                    break;
+
+                case "wireshark":
+                    int pos = Hosts.IndexOf(LocalHost);
+                    int ping = Convert.ToInt32(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}\[systeminfo].txt")[1]);
                     break;
             }
             Console.CursorVisible = false;
@@ -398,7 +444,7 @@ namespace TheCMDgame
                 else
                     ris += c;
             }
-            return NoSpace(Reverse(ris));
+            return ris;
         }
         //altro metodo privato per rovesciare una stringa
         static private String Reverse(String s)
@@ -430,7 +476,7 @@ namespace TheCMDgame
                 if (a)
                     ris += s[i];
             }
-            return ris;
+            return Reverse(ris);
         }
 
         //per chiudere
