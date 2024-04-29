@@ -25,4 +25,4 @@ SOSPETTO: vendita illegali di armi probabilmente rubate.
 
 SOLUZIONE:
  - ssh [nome dominio]  --> per usare il terminale di un host remoto.
- - host-info           --> info sull'host
+ - systeminfo          --> info sull'host

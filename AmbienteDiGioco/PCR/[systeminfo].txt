@@ -1,15 +1,11 @@
-{
-2 << ping
-}
-
 Nome host:                            PCR
 Nome SO:                              Microsoft Windows 10 pro
 Versione SO:                          10.0.19045 N/D build 19045
 Produttore SO:                        Microsoft Corporation
 Configurazione SO:                    Workstation 
 Tipo build SO:                        Multiprocessor Free
-Proprietario registrato:              "da aggiungere"
-Organizzazione registrata:
+Proprietario registrato:              Nick Tyurus
+Organizzazione registrata:	      Virtual Legacy
 Numero di serie:                      A0628-20960-99487-34DE0
 
 Produttore sistema:                   Gigabyte Technology

@@ -79,14 +79,14 @@ namespace TheCMDgame
         //lista di comandi
         static private List<Comando> listaCMD = new List<Comando>();
         //la località in cui si trova il protagonista, il computer in cui si trova
-        static private String LocalHost = @"\PersonalComputer";
+        static private String LocalHost = "PCR";
         //la lista di file dell'ambiente di gioco
         static private List<String> Files
         {
             get
             {
-                String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}{dirpos}");
-                String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}{dirpos}");
+                String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dirpos}");
+                String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dirpos}");
                 String[] files = getDirs.Concat(getFiles).ToArray();
 
                 List<String> ris = new List<String>();
@@ -297,9 +297,9 @@ namespace TheCMDgame
             Console.CursorVisible = true;
             //stampa per far capire che è un comando
             if(dirpos == "")
-                Console.Write(">>> ");
+                Console.Write($"@{LocalHost}>>> ");
             else
-                Console.Write($">>>{dirpos}: ");
+                Console.Write($"@{LocalHost}>>> {dirpos}: ");
             //comando dell'utente
             String cmd = Console.ReadLine();
             cmd = NoSpace(cmd);
@@ -357,14 +357,15 @@ namespace TheCMDgame
                     else
                     {
                         Console.WriteLine("");
-                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}{dirpos}\{soloArgs(cmd)}"));
+                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dirpos}\{soloArgs(cmd)}"));
                         Console.WriteLine("");
                         if (cmd == "nano note.txt" && !EsisteComando("cd"))
                             listaCMD.Add(CreaComando("cd","per entrare nelle cartelle, \"..\" per uscire."));
-                        if (cmd == "nano Incarico di lavoro 1.txt" && !EsisteComando("ssh") && !EsisteComando("host-info"))
+                        if (cmd == "nano Incarico di lavoro 1.txt" && !EsisteComando("ssh"))
                         {
                             listaCMD.Add(CreaComando("ssh", "per usare il teriminale di un altro host"));
-                            listaCMD.Add(CreaComando("host-info", "info sull'host corrente"));
+                            listaCMD.Add(CreaComando("systeminfo", "info sull'host corrente"));
+                            listaCMD.Add(CreaComando("wireshark", "rileva gli host vicini"));
                         }
                     }
                     break;
@@ -396,25 +397,37 @@ namespace TheCMDgame
 
                 case "systeminfo":
                     Console.WriteLine("");
-                    Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}\[systeminfo].txt"));
+                    Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco1\{LocalHost}[systeminfo].txt"));
                     Console.WriteLine("");
                     break;
 
                 case "ssh":
                     if (!Hosts.Contains(soloArgs(cmd)))
                     {
-                        wait(3000);
+                        wait(5000);
                         Console.WriteLine("\nERRORE: host non trovato\n");
                     }
                     else
                     {
-                        Console.WriteLine("\n>>ssh --> WIP<<\n");
+                        Console.WriteLine("Connessione...");
+                        Random r = new Random();
+                        wait(r.Next(500,6000));
+                        Console.WriteLine("Connessione stabilita, trasferimento in corso");
+                        wait(4000);
+                        Console.Clear();
+                        LocalHost = soloArgs(cmd);
                     }
                     break;
 
                 case "wireshark":
                     int pos = Hosts.IndexOf(LocalHost);
-                    int ping = Convert.ToInt32(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco{LocalHost}\[systeminfo].txt")[1]);
+                    int ping = Convert.ToInt32(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}\[ping].txt")[1]);
+                    Console.WriteLine("Hosts: \n");
+                    for(int i = 0; i < Hosts.Count; i++)
+                    {
+                        if (i >= pos - ping && i <= pos + ping && i != pos)
+                            Console.WriteLine($"{Hosts[i]}\n");
+                    }
                     break;
             }
             Console.CursorVisible = false;

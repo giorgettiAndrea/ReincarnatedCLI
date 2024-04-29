@@ -92,6 +92,10 @@ namespace TheCMDgame
             Game.MSG("Uh...");
             Game.MSG("Sembra essere un altro posto.");
             Game.MSG("Significa che devo scarrozzare un pò in giro.",4500);
+            while (Game.CMD() != "nano Incarico di lavoro 1.txt") ;
+            Game.MSG("Eccoci qua.");
+            Game.MSG("Vediamo un po'...");
+            Game.MSG("Addirittura mi è stato dato un comando in più!");
             while (true) Game.CMD();
         }
 
