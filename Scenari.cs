@@ -97,8 +97,14 @@ namespace TheCMDgame
             Game.MSG("Vediamo un po'...");
             while (Game.CMD() != "-help") ;
             Game.MSG("Addirittura mi è stato dato un comando in più!");
-            while (true) Game.CMD();
+            CMDtest();
         }
+
+        static public void CMDtest()
+        {
+            Game.StampaFigo("Capitolo 50: zona di prova dei comandi", 250);
+            while (true) Game.CMD();
+        } 
 
         static private void AnimationCorrupted()
         {

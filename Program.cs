@@ -32,6 +32,10 @@ namespace TheCMDgame
                     Scenari.PrimiPassi2();
                     break;
 
+                case 50:
+                    Scenari.CMDtest();
+                    break;
+
                 default:
                     Game.Capitolo = 1;
                     Scenari.Intro();

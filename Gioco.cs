@@ -73,6 +73,13 @@ namespace TheCMDgame
                     listaCMD.Add(CreaComando("nano", "permette di aprire file di testo."));
                     listaCMD.Add(CreaComando("clear","schiarisce la mente"));
                 }
+                if(value >= 4)
+                {
+                    listaCMD.Add(CreaComando("cd", "per entrare nelle cartelle, \"..\" per uscire."));
+                    listaCMD.Add(CreaComando("ssh", "per usare il teriminale di un altro host"));
+                    listaCMD.Add(CreaComando("systeminfo", "info sull'host corrente"));
+                    listaCMD.Add(CreaComando("wireshark", "rileva gli host vicini"));
+                }
 
                 //salva ogni volta che cambia capitolo
                 Save();
@@ -108,7 +115,7 @@ namespace TheCMDgame
                 String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco");
                 List<String> ris = new List<String>();
                 foreach (String h in getDirs)
-                    ris.Add(OnlyName(h));
+                    ris.Add(OnlyName(h).Substring(1));
                 return ris;
             }
         }
@@ -401,7 +408,7 @@ namespace TheCMDgame
 
                 case "systeminfo":
                     Console.WriteLine("");
-                    Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}[systeminfo].txt"));
+                    Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}\[systeminfo].txt"));
                     Console.WriteLine("");
                     break;
 
@@ -425,12 +432,18 @@ namespace TheCMDgame
 
                 case "wireshark":
                     int pos = Hosts.IndexOf(LocalHost);
-                    int ping = Convert.ToInt32(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}\[ping].txt")[1]);
+                    int ping = Convert.ToInt32(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}\[ping].txt"));
                     Console.WriteLine("Hosts: \n");
                     for(int i = 0; i < Hosts.Count; i++)
                     {
                         if (i >= pos - ping && i <= pos + ping && i != pos)
-                            Console.WriteLine($"{Hosts[i]}\n");
+                        {
+                            try
+                            {
+                                Console.WriteLine($"{Hosts[i]}\n");
+                            }
+                            catch (IndexOutOfRangeException) {; ; ; ;}
+                        }
                     }
                     break;
             }
@@ -524,7 +537,7 @@ namespace TheCMDgame
         //caricamento dei salvataggi
         static public void Setup()
         {
-            String salvataggio = File.ReadAllText($@"{percorsoGioco}\Salvataggi\Salvataggio.txt");
+            String[] salvataggio = File.ReadAllLines($@"{percorsoGioco}\Salvataggi\Salvataggio.txt");
             
             try { salute = Convert.ToInt32(salvataggio[1]); }
             catch (FormatException) { salute = 10; }

@@ -24,5 +24,5 @@ OBIETTIVO: entrare nel computer del sospetto e trovare incongruenze nei file.
 SOSPETTO: vendita illegali di armi probabilmente rubate.
 
 SOLUZIONE:
- - ssh [nome dominio]  --> per usare il terminale di un host remoto.
- - systeminfo          --> info sull'host
+ - ssh [nome host]  -->  per usare il terminale di un host remoto.
+ - systeminfo       -->  info sull'host
