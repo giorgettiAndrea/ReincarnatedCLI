@@ -15,7 +15,6 @@ namespace TheCMDgame
         static public void Intro()
         {
             Game.StampaFigo("Capitolo 1: Intro", 250);
-            Game.Capitolo = 1;
             Game.MSG("Dove sono?", 2000);
             Game.MSG("Cos'è questo posto??");
             Game.MSG("Perché non sento nulla?");
@@ -34,9 +33,9 @@ namespace TheCMDgame
             Game.Capitolo++;
         }
 
-        static public void PrimoComando()
+        static public void PrimiPassi1()
         {
-            Game.StampaFigo("Capitolo 2: Primo comando", 250);
+            Game.StampaFigo("Capitolo 2: primi passi (1/2)", 250);
             Game.MSG("Cosa è stato???",1000);
             Game.MSG("Non sono abituato a stare qua dentro.");
             Game.MSG("Devo fare qualcosa.");
@@ -67,9 +66,10 @@ namespace TheCMDgame
             Game.Capitolo++;
         }
 
-        static public void SecondoComando()
+        static public void PrimiPassi2()
         {
-            Game.StampaFigo("Capitolo 3: Secondo comando", 250);
+            Game.StampaFigo("Capitolo 3: primi passi (2/2)", 250);
+            //parte di capitolo tolto per debug velocizzato
             /*Game.MSG("In questo momento comunque è strano.", 2000);
             Game.MSG("Stanno succedendo delle cose nella mia testa.",2000);
             Game.MSG("Come dei strani flash su dei scenari, alcuni davanti ad un rettangolo colorato..",2000);
@@ -95,6 +95,7 @@ namespace TheCMDgame
             while (Game.CMD() != "nano Incarico di lavoro 1.txt") ;
             Game.MSG("Eccoci qua.");
             Game.MSG("Vediamo un po'...");
+            while (Game.CMD() != "-help") ;
             Game.MSG("Addirittura mi è stato dato un comando in più!");
             while (true) Game.CMD();
         }

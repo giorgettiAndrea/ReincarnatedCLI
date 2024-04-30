@@ -72,8 +72,10 @@ namespace TheCMDgame
                     listaCMD.Add(CreaComando("ls", "permette di vedere gli elementi presenti nella propria posizione"));
                     listaCMD.Add(CreaComando("nano", "permette di aprire file di testo."));
                     listaCMD.Add(CreaComando("clear","schiarisce la mente"));
-                    listaCMD.Add(CreaComando("exit","esce dal gioco"));
                 }
+
+                //salva ogni volta che cambia capitolo
+                Save();
             }
         }
         //lista di comandi
@@ -318,6 +320,8 @@ namespace TheCMDgame
                         Console.WriteLine(listaCMD[i].Nome + ": " + listaCMD[i].Desc);
                     wait(4000);
                     Console.WriteLine(CorruptString("\n404: Errore di caricamento\n"));
+                    if(!EsisteComando("exit"))
+                        listaCMD.Add(CreaComando("exit", "esce dal gioco"));
                 }
                 else
                 {
@@ -517,12 +521,23 @@ namespace TheCMDgame
             }
         }
 
-        //todo --> salvataggi DB con SQL
-
-        //in futuro qua verranno caricati i salvataggi
+        //caricamento dei salvataggi
         static public void Setup()
         {
-            Capitolo = 3;
+            String salvataggio = File.ReadAllText($@"{percorsoGioco}\Salvataggi\Salvataggio.txt");
+            
+            try { salute = Convert.ToInt32(salvataggio[1]); }
+            catch (FormatException) { salute = 10; }
+            
+            try { Capitolo = Convert.ToInt32(salvataggio[0]); }
+            catch (FormatException) { Capitolo = 1; }
+        }
+
+        //salvataggio dei dati
+        static public void Save()
+        {
+            String salvataggio = $"{Capitolo}\n{salute}\n\nordine attributi:\n>capitolo\n>salute";
+            File.WriteAllText($@"{percorsoGioco}\Salvataggi\Salvataggio.txt", salvataggio);
         }
     }
 }

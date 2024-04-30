@@ -11,6 +11,7 @@ namespace TheCMDgame
     {
         public static void Main()
         {
+            Convert.ToInt32("a");
 
             //caricamento del gioco
             Game.Setup();
@@ -26,14 +27,15 @@ namespace TheCMDgame
                     break;
 
                 case 2:
-                    Scenari.PrimoComando();
+                    Scenari.PrimiPassi1();
                     break;
 
                 case 3:
-                    Scenari.SecondoComando();
+                    Scenari.PrimiPassi2();
                     break;
 
                 default:
+                    Game.Capitolo = 1;
                     Scenari.Intro();
                     break;
             }
