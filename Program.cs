@@ -11,8 +11,6 @@ namespace TheCMDgame
     {
         public static void Main()
         {
-            Convert.ToInt32("a");
-
             //caricamento del gioco
             Game.Setup();
 

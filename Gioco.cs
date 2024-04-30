@@ -401,7 +401,7 @@ namespace TheCMDgame
 
                 case "systeminfo":
                     Console.WriteLine("");
-                    Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco1\{LocalHost}[systeminfo].txt"));
+                    Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}[systeminfo].txt"));
                     Console.WriteLine("");
                     break;
 
