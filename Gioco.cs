@@ -29,7 +29,7 @@ namespace TheCMDgame
                 //Cartella sopra quella del progretto
                 string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
                 //entro nel progetto e ritorno il percorso
-                return projectDirectory + $@"\ReincarnatedCLI";
+                return projectDirectory + @"\ReincarnatedCLI";
             }
         }
 
