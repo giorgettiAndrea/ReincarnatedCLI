@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -18,12 +19,16 @@ namespace TheCMDgame
             Game.MSG("Dove sono?", 2000);
             Game.MSG("Cos'è questo posto??");
             Game.MSG("Perché non sento nulla?");
+            Game.MSG("Perché non vedo?");
+            Game.MSG("Perché non sento nulla?");
+            Game.MSG("E' come se vivessi un sogno?");
             Game.MSG("E chi sono???");
             Game.MSG("...", 6000);
             Game.MSG("Non ho nessun ricordo...", 6000);
-            Game.MSG("Ma questa visione sì..", 4500);
-            Game.MSG("Queste scritte..", 4500);
-            Game.MSG("E' come se fosse un ricordo ormai impiantato in testa, una cosa che feci ogni giorno.", 4000);
+            Game.MSG("Ma...", 3000);
+            Game.MSG("Incomincio a ricordare qualcosa...", 3000);
+            Game.MSG("Delle scritte...", 4500);
+            Game.MSG("E' come se fosse un ricordo vago ma impiantato in testa, una cosa che feci ogni giorno.", 4000);
             Game.MSG("Ma ho una testa?", 5000);
             Game.MSG("E ho avuto dei miei giorni?");
             Game.MSG("Questo potrebbe significare che..");
@@ -37,19 +42,24 @@ namespace TheCMDgame
         {
             Game.StampaFigo("Capitolo 2: primi passi (1/2)", 250);
             Game.MSG("Cosa è stato???",1000);
-            Game.MSG("Non sono abituato a stare qua dentro.");
+            Game.MSG("Non Conosco questo ambiente..");
             Game.MSG("Devo fare qualcosa.");
             Game.MSG("Ma non ricordo nulla.");
             Game.MSG("Niente di niente..", 6000);
             Game.MSG("-h ?");
-            Game.MSG("E' un comando...");
+            Game.MSG("Cos'è?");
+            Game.MSG("E' un comando?");
             Game.MSG("Proviamo:", 5000);
             while (Game.CMD() != "-h");
             Game.MSG("Aiii la testa!", 100);
             Game.MSG("Cosa mi è successo?");
             Game.MSG("Ho sbagliato comando..", 5000);
             Game.MSG("Per questo che mi ha fatto male la testa?", 5000);
-            Game.MSG("Provo con -help.");
+            Game.MSG("Pensa",100);
+            Game.MSG("Pensa", 100);
+            Game.MSG("Pensa....", 100);
+            Game.MSG("-help.");
+            Game.MSG("Un nuvo comando!");
             Game.MSG("Spero di non sbagliare un'altra volta.", 1000);
             while (Game.CMD() != "-help");
             Game.MSG("Ma da errore..");
@@ -68,7 +78,7 @@ namespace TheCMDgame
 
         static public void PrimiPassi2()
         {
-            Game.StampaFigo("Capitolo 3: primi passi (2/2)", 250);
+            Game.StampaFigo("Capitolo 2: primi passi (2/2)", 250);
             //parte di capitolo tolto per debug velocizzato
             /*Game.MSG("In questo momento comunque è strano.", 2000);
             Game.MSG("Stanno succedendo delle cose nella mia testa.",2000);
@@ -98,6 +108,39 @@ namespace TheCMDgame
             while (Game.CMD() != "-help") ;
             Game.MSG("Addirittura mi è stato dato un comando in più!");
             CMDtest();
+        }
+        static public void IlRisveglio()
+        {
+            Game.StampaFigo("Capitolo 3: Il Risveglio", 250);
+            Game.MSG("Sto cominciando ad abbituarmi.. ",1000);
+            Game.MSG("Inzio a capire come muovermi all'interno dei file ",500);
+
+            /*!!
+            STAMPA:
+            apertura e chiusura di diversi file */
+
+            Game.MSG("ok penso di esserci ",500);
+            /*
+            !!
+            STAMPA:
+            FILE_CURRICULUM
+            !!
+            PERMETTE AL PROTAGONISTA DI CAPIRE CHI ERA PER CHI LAVORAVA E CHI LO CERCAVA*/
+
+            Game.MSG("Quindi mi chamavo .... ",2000); 
+            Game.MSG("Ero un subordinato alla virtual legacy ???",1500);
+            Game.MSG("Mi occupavo di...", 500);
+            
+            //!!ERRORE stampa di caraterri corrotti 
+            
+            Game.MSG("Eccolo! ");
+            Game.MSG("Proteggere i dati della sicuruerezza nazionale, file e progetti top secret ");
+            Game.MSG("Ma ora che sono morto chi protegge qui dati", 500);
+
+            //!!notifica violazione perimetro di sicurezza della casa
+
+            Game.MSG("Cos'è ....");
+            Game.MSG("Violazione sicurezza della casa....");
         }
 
         static public void CMDtest()
