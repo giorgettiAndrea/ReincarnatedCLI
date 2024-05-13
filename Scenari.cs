@@ -98,7 +98,7 @@ namespace TheCMDgame
             Game.MSG("Protebbero tornarmi utili queste informazioni.");
             while (Game.CMD() != "nano note.txt");
             Game.MSG("Cosa c'è scritto...?");
-            while (Game.CMD() != "cd \\Lavori");
+            while (Game.CMD() != @"cd \Lavori");
             Game.MSG("Uh...");
             Game.MSG("Sembra essere un altro posto.");
             Game.MSG("Significa che devo scarrozzare un pò in giro.",4500);
@@ -107,13 +107,21 @@ namespace TheCMDgame
             Game.MSG("Vediamo un po'...");
             while (Game.CMD() != "-help") ;
             Game.MSG("Addirittura mi è stato dato un comando in più!");
-            CMDtest();
+            //src 
+            //sfc ricerca file coorotti e criptati
+            //tree 
         }
         static public void IlRisveglio()
         {
+
+            
+
             Game.StampaFigo("Capitolo 3: Il Risveglio", 250);
             Game.MSG("Sto cominciando ad abbituarmi.. ",1000);
             Game.MSG("Inzio a capire come muovermi all'interno dei file ",500);
+
+
+            // scopre il comando ./ con 1° errore non è un file eseguibile poi aggiunge .exe 
 
             /*!!
             STAMPA:
