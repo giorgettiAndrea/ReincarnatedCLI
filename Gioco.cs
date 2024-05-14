@@ -70,15 +70,18 @@ namespace TheCMDgame
                 if(value >= 3)
                 {
                     listaCMD.Add(CreaComando("ls", "permette di vedere gli elementi presenti nella propria posizione"));
-                    listaCMD.Add(CreaComando("nano", "permette di aprire file di testo."));
+                    listaCMD.Add(CreaComando("nano", "permette di aprire file di testo (nano <nome.txt>)."));
                     listaCMD.Add(CreaComando("clear","schiarisce la mente"));
                 }
                 if(value >= 4)
                 {
-                    listaCMD.Add(CreaComando("cd", "per entrare nelle cartelle, \"..\" per uscire."));
-                    listaCMD.Add(CreaComando("ssh", "per usare il teriminale di un altro host"));
+                    listaCMD.Add(CreaComando("cd", "per entrare nelle cartelle, \"..\" per uscire (cd <\\nome>)."));
+                    listaCMD.Add(CreaComando("ssh", "per usare il teriminale di un altro host (ssh <nome>)"));
                     listaCMD.Add(CreaComando("systeminfo", "info sull'host corrente"));
                     listaCMD.Add(CreaComando("wireshark", "rileva gli host vicini"));
+                    listaCMD.Add(CreaComando("src", "cerca un determinato elemento (src <[\\]nome[.ext]>)"));
+                    listaCMD.Add(CreaComando("sfc", "ricerca dei file corrotti/criptati"));
+                    listaCMD.Add(CreaComando("tree", "mostra la struttura ad albero dalla cartella corrente ai contenuti"));
                 }
 
                 //salva ogni volta che cambia capitolo
@@ -446,6 +449,10 @@ namespace TheCMDgame
                         }
                     }
                     break;
+
+                case "tree":
+                    Console.WriteLine(hisTree(dirpos));
+                    break;
             }
             Console.CursorVisible = false;
             return cmd;
@@ -507,6 +514,37 @@ namespace TheCMDgame
                     ris += s[i];
             }
             return Reverse(ris);
+        }
+
+        static private String hisTree(String dir, String tab = "")
+        {
+            String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
+            String[] getFilesAux = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
+            List<String> getFiles = new List<String>();
+            foreach (String f in getFilesAux)
+            {
+                if (OnlyName(f)[0] != '[')
+                    getFiles.Add(f);
+            }
+            String tree = "";
+            if (dir == "")
+                tree += "\n" + LocalHost + "\n";
+            foreach (String d in getDirs)
+            {
+                char ind = '├';
+                if (d == getDirs[getDirs.Length - 1] && getFiles.Count == 0)
+                    ind = '└';
+                tree += $"{tab}{ind}{OnlyName(d)}\n{hisTree(dir + "\\" + OnlyName(d), tab + "|   ")}";
+            }
+            foreach (String f in getFiles)
+            {
+                char ind = '├';
+                if (f == getFiles[getFiles.Count - 1])
+                    ind = '└';
+                if (OnlyName(f)[0] != '[')
+                    tree += $"{tab}{ind}{OnlyName(f)}\n";
+            }
+            return tree;
         }
 
         //per chiudere

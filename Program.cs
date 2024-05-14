@@ -32,6 +32,10 @@ namespace TheCMDgame
                     Scenari.PrimiPassi2();
                     break;
 
+                case 4:
+                    Scenari.IlRisveglio();
+                    break;
+
                 case 50:
                     Scenari.CMDtest();
                     break;

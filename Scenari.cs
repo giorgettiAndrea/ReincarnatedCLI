@@ -79,14 +79,13 @@ namespace TheCMDgame
         static public void PrimiPassi2()
         {
             Game.StampaFigo("Capitolo 2: primi passi (2/2)", 250);
-            //parte di capitolo tolto per debug velocizzato
-            /*Game.MSG("In questo momento comunque è strano.", 2000);
+            Game.MSG("In questo momento comunque è strano.", 2000);
             Game.MSG("Stanno succedendo delle cose nella mia testa.",2000);
             Game.MSG("Come dei strani flash su dei scenari, alcuni davanti ad un rettangolo colorato..",2000);
             Game.MSG("Altri con degli rumori assordanti..il caos.", 1700);
             Game.MSG("E alcuni con...", 1000);
             Game.MSG("La famiglia?", 6000);
-            Game.MSG("vabbè metto questo comando prima che me ne scordo.");*/
+            Game.MSG("vabbè metto questo comando prima che me ne scordo.");
             Game.MSG("il comando è: ls");
             while (Game.CMD() != "ls");
             Console.WriteLine("");
@@ -109,9 +108,10 @@ namespace TheCMDgame
             Game.MSG("Addirittura mi è stato dato un comando in più!");
             //src 
             //sfc ricerca file coorotti e criptati
-            //tree 
+            //tree
+            Game.Capitolo++;
         }
-        static public void IlRisveglio()
+        static public void IlRisveglio() // --> WIP
         {
 
             
@@ -136,7 +136,7 @@ namespace TheCMDgame
             PERMETTE AL PROTAGONISTA DI CAPIRE CHI ERA PER CHI LAVORAVA E CHI LO CERCAVA*/
 
             Game.MSG("Quindi mi chamavo .... ",2000); 
-            Game.MSG("Ero un subordinato alla virtual legacy ???",1500);
+            Game.MSG("Ero un subordinato alla Virtual Legacy???",1500);
             Game.MSG("Mi occupavo di...", 500);
             
             //!!ERRORE stampa di caraterri corrotti 
@@ -147,13 +147,13 @@ namespace TheCMDgame
 
             //!!notifica violazione perimetro di sicurezza della casa
 
-            Game.MSG("Cos'è ....");
+            Game.MSG("Cos'è....");
             Game.MSG("Violazione sicurezza della casa....");
         }
 
         static public void CMDtest()
         {
-            Game.StampaFigo("Capitolo 50: zona di prova dei comandi", 250);
+            Game.StampaFigo("Capitolo 50: debug zone", 250);
             while (true) Game.CMD();
         } 
 
