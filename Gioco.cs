@@ -371,7 +371,9 @@ namespace TheCMDgame
                     else
                     {
                         Console.WriteLine("");
-                        Console.WriteLine(File.ReadAllText($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dirpos}\{soloArgs(cmd)}"));
+                        String[] lines = File.ReadAllLines($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dirpos}\{soloArgs(cmd)}");
+                        for (int i = 1; i < lines.Length; i++)
+                            Console.WriteLine(lines[i]);
                         Console.WriteLine("");
                         if (cmd == "nano note.txt" && !EsisteComando("cd"))
                             listaCMD.Add(CreaComando("cd","per entrare nelle cartelle, \"..\" per uscire."));
@@ -452,6 +454,10 @@ namespace TheCMDgame
 
                 case "tree":
                     Console.WriteLine(hisTree(dirpos));
+                    break;
+
+                case "src":
+                    Console.WriteLine("\n"+Search(soloArgs(cmd))+"\n");
                     break;
             }
             Console.CursorVisible = false;
@@ -545,6 +551,37 @@ namespace TheCMDgame
                     tree += $"{tab}{ind}{OnlyName(f)}\n";
             }
             return tree;
+        }
+        static private String Search(String filename, String dir = "")
+        {
+            String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
+            String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
+            String path = "";
+            if (dir == "")
+                path += LocalHost;
+            bool founded = false;
+            foreach (String d in getDirs)
+            {
+                String backup = path;
+                path += OnlyName(d);
+                String aux = path;
+                path += Search(filename, dir + OnlyName(d));
+                if (path != aux)
+                    founded = true;
+                else
+                    path = backup;
+            }
+            foreach (String f in getFiles)
+            {
+                if (OnlyName(f) == filename)
+                {
+                    path += "\\" + filename;
+                    founded = true;
+                }
+            }
+            if (!founded)
+                return "";
+            return path;
         }
 
         //per chiudere
