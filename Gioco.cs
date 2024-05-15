@@ -522,6 +522,7 @@ namespace TheCMDgame
             return Reverse(ris);
         }
 
+        //funzione che dato una directory di partenza genera un albero di file e cartelle
         static private String hisTree(String dir, String tab = "")
         {
             String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
@@ -534,7 +535,9 @@ namespace TheCMDgame
             }
             String tree = "";
             if (dir == "")
-                tree += "\n" + LocalHost + "\n";
+                tree += "\n@" + LocalHost + "\n";
+            else if (tab == "")
+                tree += "\n" + dir + "\n";
             foreach (String d in getDirs)
             {
                 char ind = '├';
@@ -552,6 +555,7 @@ namespace TheCMDgame
             }
             return tree;
         }
+        //funzione che trova il percorso per un file
         static private String Search(String filename, String dir = "")
         {
             String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
@@ -591,7 +595,7 @@ namespace TheCMDgame
         }
 
 
-
+        //funzione della morte
         static private void Dead()
         {
             if(Salute <= 0)
