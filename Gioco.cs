@@ -461,8 +461,9 @@ namespace TheCMDgame
                     break;
 
                 case "sfc":
-                    Console.WriteLine("Nomefile, decriptazione possibile");
-
+                    Console.WriteLine("");
+                    foreach (String i in SFC())
+                        Console.WriteLine(i);
                     break;
             }
             Console.CursorVisible = false;
@@ -543,20 +544,22 @@ namespace TheCMDgame
                 tree += "\n@" + LocalHost + "\n";
             else if (tab == "")
                 tree += "\n" + dir + "\n";
-            foreach (String d in getDirs)
+            foreach (String D in getDirs)
             {
+                String d = OnlyName(D);
                 char ind = '├';
-                if (d == getDirs[getDirs.Length - 1] && getFiles.Count == 0)
+                if (D == getDirs[getDirs.Length - 1] && getFiles.Count == 0)
                     ind = '└';
-                tree += $"{tab}{ind}{OnlyName(d)}\n{hisTree(dir + "\\" + OnlyName(d), tab + "|   ")}";
+                tree += $"{tab}{ind}{d}\n{hisTree(dir + "\\" + d, tab + "|   ")}";
             }
-            foreach (String f in getFiles)
+            foreach (String F in getFiles)
             {
+                String f = OnlyName(F);
                 char ind = '├';
-                if (f == getFiles[getFiles.Count - 1])
+                if (F == getFiles[getFiles.Count - 1])
                     ind = '└';
-                if (OnlyName(f)[0] != '[')
-                    tree += $"{tab}{ind}{OnlyName(f)}\n";
+                if (f[0] != '[')
+                    tree += $"{tab}{ind}{f}\n";
             }
             return tree;
         }
@@ -567,14 +570,15 @@ namespace TheCMDgame
             String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
             String path = "";
             if (dir == "")
-                path += LocalHost;
+                path += "@"+LocalHost;
             bool founded = false;
-            foreach (String d in getDirs)
+            foreach (String D in getDirs)
             {
+                String d = OnlyName(D);
                 String backup = path;
-                path += OnlyName(d);
+                path += d;
                 String aux = path;
-                path += Search(filename, dir + OnlyName(d));
+                path += Search(filename, dir + d);
                 if (path != aux)
                     founded = true;
                 else
@@ -598,10 +602,27 @@ namespace TheCMDgame
             String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
             String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
             List<String> Files = new List<String>();
-
-
-
-            return getFiles.ToArray<String>();
+            foreach(String d in getDirs)
+            {
+                foreach (String i in SFC(dir + OnlyName(d)))
+                    Files.Add(i);
+            }
+            foreach(String F in getFiles)
+            {
+                String f = OnlyName(F);
+                if (f.Contains(".txt") && f[0] != '[')
+                {
+                    String[] text = File.ReadAllLines(F);
+                    if (text[0][0] == '@')
+                    {
+                        String decript = "yes";
+                        if (text[0][2] == '#')
+                            decript = "no";
+                        Files.Add($"Name: {f}\nDecriptable: {decript}\nPath: {Search(f)}\n");
+                    }
+                }
+            }
+            return Files.ToArray<String>();
         }
 
 

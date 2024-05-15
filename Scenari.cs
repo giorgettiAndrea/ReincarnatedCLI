@@ -153,7 +153,7 @@ namespace TheCMDgame
 
         static public void CMDtest()
         {
-            Game.StampaFigo("Capitolo 50: debug zone", 250);
+            Console.WriteLine("Capitolo 50: debug zone");
             while (true) Game.CMD();
         } 
 
