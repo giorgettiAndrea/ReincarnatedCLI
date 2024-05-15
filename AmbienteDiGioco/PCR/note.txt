@@ -1,3 +1,4 @@
+@-# >> simbolo corruzione, simbolo decriptazione impossibile
 [ATTENZIONE FILE CORROTTO]
 
 

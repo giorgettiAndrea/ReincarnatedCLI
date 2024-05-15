@@ -459,6 +459,11 @@ namespace TheCMDgame
                 case "src":
                     Console.WriteLine("\n"+Search(soloArgs(cmd))+"\n");
                     break;
+
+                case "sfc":
+                    Console.WriteLine("Nomefile, decriptazione possibile");
+
+                    break;
             }
             Console.CursorVisible = false;
             return cmd;
@@ -587,6 +592,18 @@ namespace TheCMDgame
                 return "";
             return path;
         }
+        //funzione per trovare file corrotti
+        static private String[] SFC(String dir = "")
+        {
+            String[] getDirs = Directory.GetDirectories($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
+            String[] getFiles = Directory.GetFiles($@"{percorsoGioco}\AmbienteDiGioco\{LocalHost}{dir}");
+            List<String> Files = new List<String>();
+
+
+
+            return getFiles.ToArray<String>();
+        }
+
 
         //per chiudere
         static public void Close()
