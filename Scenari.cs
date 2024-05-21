@@ -11,8 +11,6 @@ namespace TheCMDgame
     //classe con tutti gli scenari del gioco, capitoli e scene minori
     static class Scenari
     {
-        static private Random rand = new Random();
-
         static public void Intro()
         {
             Game.StampaFigo("Capitolo 1: Intro", 250);
@@ -20,7 +18,6 @@ namespace TheCMDgame
             Game.MSG("Cos'è questo posto??");
             Game.MSG("Perché non sento nulla?");
             Game.MSG("Perché non vedo?");
-            Game.MSG("Perché non sento nulla?");
             Game.MSG("E' come se vivessi un sogno?");
             Game.MSG("E chi sono???");
             Game.MSG("...", 6000);
@@ -154,11 +151,16 @@ namespace TheCMDgame
         static public void CMDtest()
         {
             Console.WriteLine("Capitolo 50: debug zone");
+            Game.wait(1000);
+            MasterMind mstrmnd = new MasterMind(6, int.MaxValue);
+            Game.wait(1000);
+            Console.WriteLine("\n");
             while (true) Game.CMD();
         } 
 
         static private void AnimationCorrupted()
         {
+            Random rand = new Random();
             Console.CursorVisible = false;
             Console.Clear();
             Game.wait(100);
@@ -192,16 +194,8 @@ namespace TheCMDgame
             Console.CursorVisible = true;
             Console.Clear();
             Game.wait(100);
-            if (Game.EpiletticMode)
-            {
-                Console.SetCursorPosition((lar * 24) / 100, alt / 4);
-                Console.Write("STOP");
-            }
-            else
-            {
-                Console.SetCursorPosition((lar * 98) / 100, alt / 2);
-                Console.Write("STOP");
-            }
+            Console.SetCursorPosition((lar * 45) / 100, alt / 2);
+            Console.Write("STOP");
             Game.wait(2000);
             Console.Clear();
             Game.wait(1000);

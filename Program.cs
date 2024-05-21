@@ -17,34 +17,40 @@ namespace TheCMDgame
             //menù del gioco (tolto per debug veloce)
             //Game.Menu();
 
-            //selezione del capitolo
-            switch (Game.Capitolo)
+            int auxCap;
+            do
             {
-                case 1:
-                    Scenari.Intro();
-                    break;
+                auxCap = Game.Capitolo;
+                //selezione del capitolo
+                switch (Game.Capitolo)
+                {
+                    case 1:
+                        Scenari.Intro();
+                        break;
 
-                case 2:
-                    Scenari.PrimiPassi1();
-                    break;
+                    case 2:
+                        Scenari.PrimiPassi1();
+                        break;
 
-                case 3:
-                    Scenari.PrimiPassi2();
-                    break;
+                    case 3:
+                        Scenari.PrimiPassi2();
+                        break;
 
-                case 4:
-                    Scenari.IlRisveglio();
-                    break;
+                    case 4:
+                        Scenari.IlRisveglio();
+                        break;
 
-                case 50:
-                    Scenari.CMDtest();
-                    break;
+                    case 50:
+                        Scenari.CMDtest();
+                        break;
 
-                default:
-                    Game.Capitolo = 1;
-                    Scenari.Intro();
-                    break;
-            }
+                    default:
+                        Game.Capitolo = 1;
+                        Scenari.Intro();
+                        break;
+                }
+            } while (auxCap != Game.Capitolo);
+
         }
     }
 }

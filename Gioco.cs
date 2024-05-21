@@ -328,10 +328,14 @@ namespace TheCMDgame
                     Console.WriteLine(CorruptString("Lista dei comandi:\n"));
                     for (int i = 0; i < listaCMD.Count; i++)
                         Console.WriteLine(listaCMD[i].Nome + ": " + listaCMD[i].Desc);
-                    wait(4000);
-                    Console.WriteLine(CorruptString("\n404: Errore di caricamento\n"));
-                    if(!EsisteComando("exit"))
-                        listaCMD.Add(CreaComando("exit", "esce dal gioco"));
+                    if(Capitolo != 50)
+                    {
+                        wait(4000);
+                        Console.WriteLine(CorruptString("\n404: Errore di caricamento\n"));
+                        if (!EsisteComando("exit"))
+                            listaCMD.Add(CreaComando("exit", "esce dal gioco"));
+                    }
+                    Console.WriteLine("");
                 }
                 else
                 {
@@ -464,6 +468,7 @@ namespace TheCMDgame
                     Console.WriteLine("");
                     foreach (String i in SFC())
                         Console.WriteLine(i);
+                    Console.WriteLine("");
                     break;
             }
             Console.CursorVisible = false;
@@ -503,8 +508,8 @@ namespace TheCMDgame
                 ris += s[i];
             return ris;
         }
-        //data una stringa toglie gli spazi attorno
-        static private String NoSpace(String s)
+        //data una stringa toglie gli spazi attorno (pubblica perché offerta gentilemente ad un altra classe)
+        static public String NoSpace(String s)
         {
             string ris = "";
             bool a = false;
@@ -618,7 +623,7 @@ namespace TheCMDgame
                         String decript = "yes";
                         if (text[0][2] == '#')
                             decript = "no";
-                        Files.Add($"Name: {f}\nDecriptable: {decript}\nPath: {Search(f)}\n");
+                        Files.Add($"Name: {f}\nDecriptable: {decript}");
                     }
                 }
             }
